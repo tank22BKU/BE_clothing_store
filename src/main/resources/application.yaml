@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: clothingStore
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/clothing_store
+    username: root
+    password: 170604
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+
+  #  flyway:
+#    enabled: true
+#    validate-on-migrate: true
+#    baseline-on-migrate: true
+#    baseline-version: 0
+#    locations: classpath:db/migration  # Chỉ định thư mục chứa file migration
+
+  server:
+    port: 8080
+
+  logging:
+    level:
+      root: INFO
+      org.hibernate: ERROR
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: xuanngoczxc@gmail.com
+#    password: "aeli xdsg cmii bqvx"
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
