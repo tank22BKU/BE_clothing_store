@@ -3,6 +3,7 @@ package com.clothingstore.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -39,7 +40,8 @@ public class Product {
     @ElementCollection
     @CollectionTable(name = "Product_Image", joinColumns = @JoinColumn(name = "ProductID"))
     @Column(name = "ProductImage", length = 255)
-    private Set<String> images;
+    @Builder.Default
+    private Set<String> images = new HashSet<>();
     
     @ManyToMany
     @JoinTable(
@@ -47,8 +49,10 @@ public class Product {
         joinColumns = @JoinColumn(name = "ProductID"),
         inverseJoinColumns = @JoinColumn(name = "CategoryID")
     )
-    private Set<Category> categories;
+    @Builder.Default
+    private Set<Category> categories = new HashSet<>();
     
     @ManyToMany(mappedBy = "products")
-    private Set<Promotion> promotions;
+    @Builder.Default
+    private Set<Promotion> promotions = new HashSet<>();
 }
