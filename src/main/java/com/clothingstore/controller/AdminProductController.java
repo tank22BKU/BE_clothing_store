@@ -3,8 +3,11 @@ package com.clothingstore.controller;
 import com.clothingstore.dto.request.CreateProductRequest;
 import com.clothingstore.dto.request.UpdatePriceRequest;
 import com.clothingstore.dto.response.CreateProductResponse;
+import com.clothingstore.dto.response.ProductDetailsResponse;
 import com.clothingstore.dto.response.StockStatusResponse;
 import com.clothingstore.dto.response.StatusMessageResponse;
+import com.clothingstore.entity.Product;
+import com.clothingstore.repository.ProductRepositoryCustomImpl;
 import com.clothingstore.service.AdminProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +15,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin/products")
 @RequiredArgsConstructor
 public class AdminProductController {
 
     private final AdminProductService adminProductService;
+    private final ProductRepositoryCustomImpl productRepositoryCustomImpl;
+
+    /**
+     * Lấy danh sách tất cả Product
+     * GET api/admin/products
+     */
+    @GetMapping
+    public ResponseEntity<List<ProductDetailsResponse>> GetAllProductDetails(){
+        return ResponseEntity.ok(adminProductService.getAllProductDetails());
+    }
+
 
     /**
      * Thêm mới sản phẩm

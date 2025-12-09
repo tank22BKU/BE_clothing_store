@@ -1,6 +1,7 @@
 package com.clothingstore.service.impl;
 
 import com.clothingstore.dto.request.CreateProductRequest;
+import com.clothingstore.dto.response.ProductDetailsResponse;
 import com.clothingstore.dto.response.StockStatusResponse;
 import com.clothingstore.entity.Category;
 import com.clothingstore.entity.Product;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -29,6 +32,15 @@ public class AdminProductServiceImpl implements AdminProductService {
     private final ProductVariantRepository variantRepository;
     private final WarehouseVariantRepository warehouseVariantRepository;
     private final ReviewRepository reviewRepository;
+    private final ProductRepositoryCustomImpl productRepositoryCustom;
+
+    @Override
+    @Transactional
+    public List<ProductDetailsResponse> getAllProductDetails(){
+        List<ProductDetailsResponse> productDetails = productRepositoryCustom.getAllProductDetails();
+
+        return productDetails;
+    }
 
     @Override
     @Transactional
