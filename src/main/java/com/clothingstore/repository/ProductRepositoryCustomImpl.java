@@ -5,7 +5,6 @@ import com.clothingstore.entity.Product;
 import com.clothingstore.entity.ProductVariant;
 import com.clothingstore.entity.QProduct;
 import com.clothingstore.entity.QProductVariant;
-import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -52,6 +51,7 @@ public class ProductRepositoryCustomImpl {
                 if (images.isEmpty()) {
                     // Nếu không có ảnh, tạo 1 response với null imageURL
                     results.add(new ProductDetailsResponse(
+                            productEntity.getProductId(),
                             null,
                             productEntity.getName(),
                             null,
@@ -62,6 +62,7 @@ public class ProductRepositoryCustomImpl {
                 } else {
                     for (String imageUrl : images) {
                         results.add(new ProductDetailsResponse(
+                                productEntity.getProductId(),
                                 imageUrl,
                                 productEntity.getName(),
                                 null,
@@ -77,6 +78,7 @@ public class ProductRepositoryCustomImpl {
                     if (images.isEmpty()) {
                         // Nếu không có ảnh
                         results.add(new ProductDetailsResponse(
+                                productEntity.getProductId(),
                                 null,
                                 productEntity.getName(),
                                 variantEntity.getSize(),
@@ -88,6 +90,7 @@ public class ProductRepositoryCustomImpl {
                         // Mỗi variant kết hợp với mỗi ảnh
                         for (String imageUrl : images) {
                             results.add(new ProductDetailsResponse(
+                                    productEntity.getProductId(),
                                     imageUrl,
                                     productEntity.getName(),
                                     variantEntity.getSize(),
