@@ -17,4 +17,6 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariant, 
     @Query("SELECT pv FROM ProductVariant pv WHERE pv.variantId = :variantId AND pv.product.productId = :productId")
     ProductVariant findByVariantIdAndProductId(@Param("variantId") String variantId,
                                                @Param("productId") String productId);
+    @Query(value = "SELECT VariantID FROM product_variant ORDER BY VariantID DESC LIMIT 1", nativeQuery = true)
+    String findMaxVariantId();
 }

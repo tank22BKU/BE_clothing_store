@@ -5,6 +5,7 @@ import com.clothingstore.dto.response.ProductDetailsResponse;
 import com.clothingstore.dto.response.StockStatusResponse;
 import com.clothingstore.entity.Category;
 import com.clothingstore.entity.Product;
+import com.clothingstore.entity.ProductVariant;
 import com.clothingstore.repository.*;
 import com.clothingstore.service.AdminProductService;
 import jakarta.persistence.EntityManager;
@@ -33,6 +34,7 @@ public class AdminProductServiceImpl implements AdminProductService {
     private final WarehouseVariantRepository warehouseVariantRepository;
     private final ReviewRepository reviewRepository;
     private final ProductRepositoryCustomImpl productRepositoryCustom;
+    private final ProductVariantRepository productVariantRepository;
 
     @Override
     @Transactional
@@ -89,9 +91,21 @@ public class AdminProductServiceImpl implements AdminProductService {
             product.setImages(Set.copyOf(request.getImages()));
         }
 
+        ProductVariant variant = ProductVariant.builder()
+                .variantId(generateVariantId())
+                .product(product)
+                .size(request.getSize())
+                .color(request.getColor())
+                .price(request.getDefaultPrice()) // dùng default price
+                .branchName(null)
+                .stockQuality("0")
+                .build();
+
         if (product.getVariants() != null) {
             product.setVariants(new HashSet<>(product.getVariants()));
         }
+
+        product.getVariants().add(variant);
 
         if (product.getImages() != null) {
             product.setImages(new HashSet<>(product.getImages()));
@@ -218,5 +232,23 @@ public class AdminProductServiceImpl implements AdminProductService {
             case "High Stock" -> "Tồn kho đủ";
             default -> "Trạng thái không xác định";
         };
+    }
+
+    private String generateVariantId() {
+        // Lấy variant có ID lớn nhất trong DB
+        String lastId = productVariantRepository.findMaxVariantId();
+        // Nếu chưa có dữ liệu thì trả về VAR001
+        if (lastId == null) {
+            return "VAR001";
+        }
+
+        // Tách số phía sau "VAR"
+        int number = Integer.parseInt(lastId.substring(3));
+
+        // Tăng lên 1
+        number++;
+
+        // Format lại VARxxx (3 digits)
+        return String.format("VAR%03d", number);
     }
 }

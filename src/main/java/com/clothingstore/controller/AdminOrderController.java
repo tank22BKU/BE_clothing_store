@@ -2,7 +2,9 @@ package com.clothingstore.controller;
 
 import com.clothingstore.dto.request.UpdateOrderStatusRequest;
 import com.clothingstore.dto.response.OrderListResponse;
+import com.clothingstore.dto.response.OrderResponse;
 import com.clothingstore.dto.response.StatusMessageResponse;
+import com.clothingstore.entity.Order;
 import com.clothingstore.service.AdminOrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/orders")
@@ -21,11 +24,16 @@ public class AdminOrderController {
 
     private final AdminOrderService adminOrderService;
 
+    @GetMapping()
+    public ResponseEntity<List<OrderResponse>> getAllOrders() {
+        return ResponseEntity.ok(adminOrderService.getAllOrders());
+    }
+
     /**
      * Lấy danh sách đơn hàng với filter và sort
      * GET /api/admin/orders?customerId=USER001&status=pending&sortBy=date_desc
      */
-    @GetMapping
+    @GetMapping("filter")
     public ResponseEntity<OrderListResponse> getOrders(
             @RequestParam(required = false) String customerId,
             @RequestParam(required = false) String status,

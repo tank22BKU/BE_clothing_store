@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -21,6 +22,11 @@ public class CreateProductRequest {
     private BigDecimal defaultPrice;
 
     private List<String> images;
+
+    @NotNull(message = "size is required")
+    private String size;
+
+    private String color;
 
     @NotBlank(message = "Category ID is required")
     private String categoryId;

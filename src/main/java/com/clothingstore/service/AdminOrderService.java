@@ -1,7 +1,9 @@
 package com.clothingstore.service;
 
 import com.clothingstore.dto.response.OrderListResponse;
+import com.clothingstore.dto.response.OrderResponse;
 import com.clothingstore.dto.response.OrderSummaryDto;
+import com.clothingstore.entity.Order;
 import com.clothingstore.entity.OrderDetails;
 import com.clothingstore.repository.OrderDetailsRepository;
 import com.clothingstore.repository.OrderRepository;
@@ -196,5 +198,20 @@ public class AdminOrderService {
         }
 
         return numberOfItems;
+    }
+
+    @Transactional(readOnly = true)
+    public List<OrderResponse> getAllOrders() {
+        return orderRepository.findAll().stream()
+                .map(order -> new OrderResponse(
+                        order.getOrderId(),
+                        order.getStatus(),
+                        order.getTotalAmount(),
+                        order.getOrderDate(),
+                        order.getCustomer().getCustomerId(),
+                        order.getEmployee().getEmployeeId(),
+                        order.getPayment().getPaymentId()
+                ))
+                .toList();
     }
 }
