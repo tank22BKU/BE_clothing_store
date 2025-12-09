@@ -143,6 +143,12 @@ public class AdminProductServiceImpl implements AdminProductService {
         query.setParameter("p_productId", productId);
         query.setParameter("p_newPrice", newPrice);
 
+        List<ProductVariant> list = productVariantRepository.findByProductId(productId);
+        for(ProductVariant productVariant : list){
+            productVariant.setPrice(newPrice);
+            productVariantRepository.save(productVariant);
+        }
+
         try {
             query.execute();
             log.info("Price updated successfully for product: {}", productId);
