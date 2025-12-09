@@ -52,7 +52,6 @@ public class AdminReportService {
             List<ProductSalesReportDto> reports = new ArrayList<>();
 
             for (Object[] row : results) {
-                log.info("Row " + row.toString());
                 BigDecimal totalRenevue = row[4] != null ? (BigDecimal) row[4] : BigDecimal.ZERO;
                 BigDecimal averagePrice = row[2] != null ? (BigDecimal) row[2] : BigDecimal.ZERO;
                 Integer totalQuantitySold = convertToInteger(row[3]);
